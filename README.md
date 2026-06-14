@@ -177,7 +177,14 @@ CSV 資料
 data/raw/sample_ocean_data.csv
 ```
 
-資料為期末專題展示用之模擬資料，格式參考海洋觀測資料常見欄位設計，主要用於展示資料清洗、統計分析與視覺化流程。
+這份 CSV 不是從政府開放資料直接下載的真實觀測資料，而是本專題為了 Demo 與測試自行建立的模擬資料，也就是自建模擬資料。資料格式參考海洋觀測資料常見欄位設計，主要用於展示資料清洗、統計分析與視覺化流程。
+
+建立模擬資料的原因：
+
+- 期末 Demo 時可確保每次執行都有穩定資料。
+- 欄位名稱能完全配合本系統的清洗與分析流程。
+- 不需要 API Key，也不會受到即時資料延遲、缺值或格式變動影響。
+- 資料量適中，適合課堂展示與測試。
 
 資料概況：
 
@@ -198,6 +205,76 @@ data/raw/sample_ocean_data.csv
 | `wave_height_m` | 浪高 | 公尺 |
 | `wind_speed_mps` | 風速 | m/s |
 | `salinity_psu` | 鹽度 | PSU |
+
+## 如果要抓真實資料
+
+若未來要改成真實海洋觀測資料，可以優先使用交通部中央氣象署開放資料。中央氣象署開放資料平臺提供資料擷取 API，並有海象監測相關資料集。
+
+建議資料來源：
+
+| 來源 | 說明 | 適合用途 |
+| --- | --- | --- |
+| 中央氣象署開放資料平臺 | 官方氣象與海象開放資料入口 | 申請 API Key、查詢資料集 |
+| O-B0075-001 海象監測資料 | 48 小時浮標站與潮位站海況監測資料，包含潮高、浪高、海溫、風速等欄位 | 即時或近 48 小時海況資料 |
+| O-B0076-001 海象觀測測站資料 | 浮標站、潮位站、波浪站等測站資料 | 測站代碼與測站名稱對照 |
+| ASRAD 海象站海溫 CSV | 收錄中央氣象署海象站海溫資料，CSV 格式 | 歷史海溫資料下載與整理 |
+
+真實資料串接流程：
+
+1. 到中央氣象署開放資料平臺註冊帳號。
+2. 取得 API 授權碼。
+3. 到 API 線上說明文件查詢資料集，例如 `O-B0075-001`。
+4. 使用 Python `requests` 或 Pandas 讀取 API 回傳資料。
+5. 將官方欄位轉成此專案需要的欄位名稱。
+6. 儲存成 CSV，例如 `data/raw/real_ocean_data.csv`。
+7. 在 Gradio 介面選擇上傳該 CSV，或修改 `load_sample_data()` 改讀真實資料。
+
+API URL 範例：
+
+```text
+https://opendata.cwa.gov.tw/api/v1/rest/datastore/O-B0075-001?Authorization=你的_API_KEY&format=JSON
+```
+
+Python 抓取範例：
+
+```python
+import os
+import pandas as pd
+import requests
+
+API_KEY = os.getenv("CWA_API_KEY")
+URL = "https://opendata.cwa.gov.tw/api/v1/rest/datastore/O-B0075-001"
+
+params = {
+    "Authorization": API_KEY,
+    "format": "JSON",
+}
+
+response = requests.get(URL, params=params, timeout=30)
+response.raise_for_status()
+data = response.json()
+
+# 實際欄位層級需依 CWA API 回傳 JSON 結構調整。
+# 建議先 print(data.keys()) 或使用 Jupyter Notebook 觀察資料格式。
+records = data["records"]
+
+# 將 records 整理成 DataFrame 後，再依照本專案欄位重新命名。
+df = pd.json_normalize(records)
+print(df.head())
+```
+
+欄位轉換方向：
+
+| 官方資料常見欄位 | 本專案欄位 |
+| --- | --- |
+| 測站代碼或測站名稱 | `station` |
+| 資料觀測時間 | `date` |
+| 海溫 | `sea_temperature_c` |
+| 潮高或潮位 | `tide_level_m` |
+| 浪高 | `wave_height_m` |
+| 風速 | `wind_speed_mps` |
+
+注意：不同海象資料集不一定會同時提供鹽度 `salinity_psu`。如果真實來源沒有鹽度資料，正式做法應該是另外串接有鹽度的資料來源，或修改程式讓鹽度欄位變成選填。若只是課堂展示，可以先保留空值，但報告中要清楚註明資料限制。
 
 ## 資料清洗流程
 
@@ -380,6 +457,7 @@ docker rm ocean-dashboard-demo
 ## 注意事項
 
 - `data/raw/sample_ocean_data.csv` 是展示用模擬資料，不代表真實觀測數據。
+- 若改用真實資料，請在 `data/README.md` 補上資料來源網址、下載日期、授權方式與欄位轉換方式。
 - `data/processed/cleaned_ocean_data.csv` 會在系統執行後產生，並已設定在 `.gitignore` 中。
 - 上傳 CSV 時，欄位名稱需要與本專案要求一致。
 - Dockerfile 會安裝 Noto CJK 字型，讓容器中的中文字型顯示更穩定。

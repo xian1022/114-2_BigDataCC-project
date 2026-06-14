@@ -38,7 +38,7 @@
 
 ## 二、資料集說明
 
-本專題使用 `data/raw/sample_ocean_data.csv` 作為範例資料。此資料為期末專題展示用模擬資料，格式參考海洋觀測資料常見欄位設計，主要用於展示資料清洗、統計分析與視覺化流程。
+本專題使用 `data/raw/sample_ocean_data.csv` 作為範例資料。此資料為期末專題展示用自建模擬資料，並不是從真實測站直接下載。資料格式參考海洋觀測資料常見欄位設計，主要用於展示資料清洗、統計分析與視覺化流程。
 
 | 項目 | 內容 |
 | --- | --- |
@@ -48,6 +48,8 @@
 | 日期範圍 | 2026-03-01 至 2026-03-15 |
 | 測站 | Keelung、Taichung、Kaohsiung、Hualien、Taitung |
 | 欄位數 | 7 個 |
+
+若要改用真實資料，建議使用交通部中央氣象署開放資料平臺。可先申請 API 授權碼，再查詢海象監測資料，例如 `O-B0075-001` 48 小時浮標站與潮位站海況監測資料。該類資料可提供潮高、浪高、海溫、風速等欄位，整理後可轉換成本專案所需格式。若資料來源沒有鹽度欄位，需另外尋找鹽度資料來源，或修改系統讓鹽度欄位變成選填。
 
 | 欄位名稱 | 說明 | 單位 |
 | --- | --- | --- |
@@ -164,3 +166,8 @@ docs/screenshots/ocean_dashboard_home.png
 - Matplotlib 官方文件：https://matplotlib.org/stable/
 - Gradio 官方文件：https://www.gradio.app/docs
 - Docker 官方文件：https://docs.docker.com/
+- 中央氣象署開放資料平臺：https://opendata.cwa.gov.tw/
+- 中央氣象署 API 線上說明文件：https://opendata.cwa.gov.tw/dist/opendata-swagger.html
+- 海象監測資料 O-B0075-001：https://opendata.cwa.gov.tw/dataset/observation/O-B0075-001
+- 海象觀測測站資料 O-B0076-001：https://opendata.cwa.gov.tw/dataset/forecast/O-B0076-001
+- ASRAD 海象站海溫資料 CSV：https://asrad.pccu.edu.tw/dbar/digital_data/4-1-%E6%B5%B7%E6%BA%ABcsv/
