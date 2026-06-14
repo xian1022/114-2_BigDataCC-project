@@ -79,7 +79,7 @@ CSV 資料
 | 資料視覺化 | 使用 Matplotlib 產生趨勢折線圖、測站平均長條圖與月份平均折線圖 |
 | 互動式應用 | 使用 Gradio 建立可操作的 Web 儀表板 |
 | Docker 容器化 | 提供 `docker/Dockerfile`，可 build 映像檔並以 `7860` port 啟動 |
-| 文件完整度 | 提供 README、proposal、data README、report、slides outline 與 PowerPoint 簡報 |
+| 文件完整度 | 提供 README、proposal、data README 與 report |
 | 可重現性 | 提供 `requirements.txt`、範例資料與 Docker 執行指令 |
 
 ## 系統功能
@@ -147,13 +147,10 @@ CSV 資料
 │   ├── report.md
 │   ├── screenshots/
 │   │   └── ocean_dashboard_home.png
-│   └── slides/
-│       └── slides_outline.md
 │
 ├── tests/
 │   └── test_ocean_dashboard.py
 │
-├── Ocean_Environment_Dashboard_Final_Presentation.pptx
 ├── .gitignore
 └── requirements.txt
 ```
@@ -171,7 +168,6 @@ CSV 資料
 | `docker/Dockerfile` | 建立 Docker 映像檔，安裝 Python 套件與中文字型 |
 | `notebooks/exploration.ipynb` | 用 Jupyter Notebook 進行初步資料探索 |
 | `docs/report.md` | 期末報告初稿 |
-| `Ocean_Environment_Dashboard_Final_Presentation.pptx` | 期末發表簡報 |
 
 ## 資料來源與欄位說明
 
@@ -372,7 +368,7 @@ docker rm ocean-dashboard-demo
 - 完成 Matplotlib 視覺化圖表。
 - 完成 Gradio 互動式儀表板。
 - 完成 Docker 容器化部署。
-- 完成期末報告初稿與簡報檔案。
+- 完成期末報告初稿。
 
 相關文件：
 
@@ -380,8 +376,6 @@ docker rm ocean-dashboard-demo
 - 個人選題探索：`my-topics/topic_ocean_dashboard.md`
 - 資料說明：`data/README.md`
 - 期末報告：`docs/report.md`
-- 簡報大綱：`docs/slides/slides_outline.md`
-- PowerPoint 簡報：`Ocean_Environment_Dashboard_Final_Presentation.pptx`
 
 ## 注意事項
 
