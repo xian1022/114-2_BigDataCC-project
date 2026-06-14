@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual Environment
+.env
+.venv/
+venv/
+env/
+.conda/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Data
+data/processed/*.csv
+data/raw/*.zip
+data/raw/*.gz
+data/raw/*.tar
+*.h5
+*.hdf5
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Docker / Logs
+*.log
+
